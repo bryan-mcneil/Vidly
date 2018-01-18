@@ -22,6 +22,7 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult Index()
         {
             //var movies = _context.Movies.Include(m => m.Genre).ToList();
@@ -36,6 +37,7 @@ namespace Vidly.Controllers
             return View("ReadOnlyList");
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Details(int id)
         {
             var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
@@ -58,6 +60,7 @@ namespace Vidly.Controllers
             return View("MovieForm", viewModel);
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
@@ -76,6 +79,7 @@ namespace Vidly.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Save(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -111,6 +115,7 @@ namespace Vidly.Controllers
         }
 
         // GET: Movies
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Random()
         {
             var movie = new Movie() {Name = "Shrek!"};
